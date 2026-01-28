@@ -40,18 +40,18 @@ local redzlib = {
 		},
 		Ocean = {
 			["Color Hub 1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(1, 22, 30)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(10, 45, 60)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(1, 22, 30))
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(10, 10, 10)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(25, 25, 25)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(10, 10, 10))
 			}),
-			["Color Hub 2"] = Color3.fromRGB(18, 69, 89),
-			["Color Stroke"] = Color3.fromRGB(30, 80, 100),
-			["Color Theme"] = Color3.fromRGB(89, 131, 146),
-			["Color Text"] = Color3.fromRGB(239, 246, 224),
-			["Color Dark Text"] = Color3.fromRGB(174, 195, 176),
-			["Color Dark Purple"] = Color3.fromRGB(89, 131, 146),
+			["Color Hub 2"] = Color3.fromRGB(20, 20, 20),
+			["Color Stroke"] = Color3.fromRGB(45, 45, 45),
+			["Color Theme"] = Color3.fromRGB(255, 255, 255),
+			["Color Text"] = Color3.fromRGB(240, 240, 240),
+			["Color Dark Text"] = Color3.fromRGB(160, 160, 160),
+			["Color Dark Purple"] = Color3.fromRGB(200, 200, 200),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0, 0),
-			["Color Dark Greem"] = Color3.fromRGB(43, 255, 0)
+			["Color Dark Greem"] = Color3.fromRGB(220, 220, 220)
 		}
 	},
 	Info = {
@@ -904,6 +904,8 @@ local function CreateCyberpunkParticle()
 	if #ActiveParticles >= ParticleConfig.MaxParticles then return end
 	
 	local containerSize = ParticleContainer.AbsoluteSize
+	if containerSize.X <= 20 then return end
+	
 	local startX = math.random(10, containerSize.X - 10)
 	local startY = containerSize.Y + 20
 	
@@ -1072,7 +1074,7 @@ end
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
 			Title = "Kapat",
-			Text = "D4rk Hub'ı kapatmak istediğinizden emin misiniz? Devam etmek ayarlarınızı kaybetmenize veya fonksiyonların durmasına neden olabilir.",
+			Text = "Vexro Hub'ı kapatmak istediğinizden emin misiniz? Devam etmek ayarlarınızı kaybetmenize veya fonksiyonların durmasına neden olabilir.",
 			Options = {
 				{"Onayla", function()
 					ScreenGui:Destroy()
