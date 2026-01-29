@@ -1681,7 +1681,7 @@ end
 			local function CalculateSize()
 				local Count = 0
 				for _,Frame in pairs(ScrollFrame:GetChildren()) do
-					if Frame:IsA("Frame") or Frame.Name == "Option" then
+					if Frame:IsA("Frame") or Frame:IsA("TextButton") or Frame.Name == "Option" then
 						Count = Count + 1
 					end
 				end
@@ -1891,13 +1891,13 @@ end
 			function Dropdown:Add(...)
 				local NewOptions = {...}
 				if type(NewOptions[1]) == "table" then
-					table.foreach(Option, function(_,Name)
+					for _, Name in pairs(NewOptions[1]) do
 						AddOption(Name)
-					end)
+					end
 				else
-					table.foreach(NewOptions, function(_,Name)
+					for _, Name in pairs(NewOptions) do
 						AddOption(Name)
-					end)
+					end
 				end
 			end
 			function Dropdown:Remove(Option)
@@ -1928,6 +1928,7 @@ end
 				elseif type(Val1) == "function" then
 					Callback = Val1
 				end
+				CalculateSize()
 			end
 			return Dropdown
 		end
