@@ -1145,14 +1145,14 @@ end
 	end
 function Window:AddMinimizeButton(Configs)
 	local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-		Size = UDim2.fromOffset(60, 60),
-		Position = UDim2.fromScale(0.15, 0.15),
-		BackgroundTransparency = 0.2,
+		Size = UDim2.fromOffset(45, 45), -- Biraz daha makul bir boyut
+		Position = UDim2.new(0.05, 0, 0.1, 0),
+		BackgroundTransparency = 0.3,
 		BackgroundColor3 = Theme["Color Hub 2"],
 		Image = "rbxassetid://10734896206",
 		AutoButtonColor = true,
-		ZIndex = 1000,
-		Visible = false -- Menü açıkken gizli
+		ZIndex = 1100, -- Daha yüksek ZIndex
+		Visible = true -- Varsayılan olarak GÖRÜNÜR yapıldı
 	}))
 
 	local Stroke, Corner
@@ -1415,7 +1415,7 @@ end
 		function Tab:Destroy() TabSelect:Destroy() Container:Destroy() end
 		
 		function Tab:AddSection(Configs)
-			local SectionName = type(Configs) == "string" and Configs or Configs[1] or Configs.Name or Configs.Title or Configs.Section
+			local SectionName = type(Configs) == "string" and Configs or Configs[1] or Configs.Name or Configs.Title or Configs.Section or "Bölüm"
 			
 			local SectionFrame = Create("Frame", Container, {
 				Size = UDim2.new(1, 0, 0, 20),
@@ -1452,7 +1452,7 @@ end
 			return Section
 		end
 		function Tab:AddParagraph(Configs)
-			local PName = Configs[1] or Configs.Title or "Paragraph"
+			local PName = Configs[1] or Configs.Title or "Paragraf"
 			local PDesc = Configs[2] or Configs.Text or ""
 			
 			local Frame, LabelFunc = ButtonFrame(Container, PName, PDesc, UDim2.new(1, -20))
@@ -1477,7 +1477,7 @@ end
 			return Paragraph
 		end
 		function Tab:AddButton(Configs)
-			local BName = Configs[1] or Configs.Name or Configs.Title or "Button!"
+			local BName = Configs[1] or Configs.Name or Configs.Title or "Buton!"
 			local BDescription = Configs.Desc or Configs.Description or ""
 			local Callback = Funcs:GetCallback(Configs, 2)
 			
@@ -1512,7 +1512,7 @@ end
 			return Button
 		end
 		function Tab:AddToggle(Configs)
-			local TName = Configs[1] or Configs.Name or Configs.Title or "Toggle"
+			local TName = Configs[1] or Configs.Name or Configs.Title or "Aç-Kapat"
 			local TDesc = Configs.Desc or Configs.Description or ""
 			local Callback = Funcs:GetCallback(Configs, 3)
 			local Flag = Configs[4] or Configs.Flag or false
@@ -1587,7 +1587,7 @@ end
 			return Toggle
 		end
 		function Tab:AddDropdown(Configs)
-			local DName = Configs[1] or Configs.Name or Configs.Title or "Dropdown"
+			local DName = Configs[1] or Configs.Name or Configs.Title or "Açılır Menü"
 			local DDesc = Configs.Desc or Configs.Description or ""
 			local DOptions = Configs[2] or Configs.Options or {}
 			local OpDefault = Configs[3] or Configs.Default or {}
@@ -1931,7 +1931,7 @@ end
 			return Dropdown
 		end
 		function Tab:AddSlider(Configs)
-			local SName = Configs[1] or Configs.Name or Configs.Title or "Slider!"
+			local SName = Configs[1] or Configs.Name or Configs.Title or "Kaydırıcı!"
 			local SDesc = Configs.Desc or Configs.Description or ""
 			local Min = Configs[2] or Configs.MinValue or Configs.Min or 10
 			local Max = Configs[3] or Configs.MaxValue or Configs.Max or 100
@@ -2065,10 +2065,10 @@ end
 			return Slider
 		end
 		function Tab:AddTextBox(Configs)
-			local TName = Configs[1] or Configs.Name or Configs.Title or "Text Box"
+			local TName = Configs[1] or Configs.Name or Configs.Title or "Metin Kutusu"
 			local TDesc = Configs.Desc or Configs.Description or ""
 			local TDefault = Configs[2] or Configs.Default or ""
-			local TPlaceholderText = Configs[5] or Configs.PlaceholderText or "Input"
+			local TPlaceholderText = Configs[5] or Configs.PlaceholderText or "Giriş"
 			local TClearText = Configs[3] or Configs.ClearText or false
 			local Callback = Funcs:GetCallback(Configs, 4)
 			
