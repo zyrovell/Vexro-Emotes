@@ -1859,14 +1859,20 @@ end
 				
 				AddNewOptions = function(List, Clear)
 					if Clear then
-						table.foreach(Options, RemoveOption)
+						for i, v in pairs(Options) do
+							RemoveOption(i, v.Value)
+						end
 					end
-					table.foreach(List, AddOption)
+					for i, v in pairs(List) do
+						AddOption(i, v)
+					end
 					CallbackSelected()
 					UpdateSelected()
 				end
 				
-				table.foreach(DOptions, AddOption)
+				for i, v in pairs(DOptions) do
+					AddOption(i, v)
+				end
 				CallbackSelected()
 				UpdateSelected()
 			end
@@ -1888,14 +1894,12 @@ end
 			function Dropdown:Destroy() Button:Destroy() end
 			function Dropdown:Callback(...) Funcs:InsertCallback(Callback, ...)(Selected) end
 			
-			function Dropdown:Add(...)
-				local NewOptions = {...}
-				if type(NewOptions[1]) == "table" then
-					for _, Name in pairs(NewOptions[1]) do
-						AddOption(Name)
-					end
-				else
-					for _, Name in pairs(NewOptions) do
+				for _, Name in pairs(NewOptions) do
+					if type(Name) == "table" then
+						for _, SubName in pairs(Name) do
+							AddOption(SubName)
+						end
+					else
 						AddOption(Name)
 					end
 				end
