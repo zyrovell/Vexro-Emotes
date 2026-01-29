@@ -1149,9 +1149,10 @@ function Window:AddMinimizeButton(Configs)
 		Position = UDim2.new(0.05, 0, 0.1, 0),
 		BackgroundTransparency = 0.3,
 		BackgroundColor3 = Theme["Color Hub 2"],
-		Image = "rbxassetid://94910279410009", -- Kullanıcının belirttiği ID
+		Image = "rbxthumb://type=Asset&id=94910279410009&w=420&h=420", -- Decal'i görsele çeviren format
+		ImageColor3 = Color3.new(1, 1, 1), -- İkonun kendi renklerini göstermesi için beyaz yapıyoruz
 		AutoButtonColor = true,
-		ZIndex = 2000, -- En üstte olması için
+		ZIndex = 2000,
 		Visible = true 
 	}))
 
