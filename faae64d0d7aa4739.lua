@@ -138,6 +138,33 @@ local translations = {
         fps_optimizer = "FPS Optimizer",
         fps_boost = "FPS Boost",
         ready_messages = "Ready Messages",
+        tp_backstage = "Backstage",
+        tp_city_center = "City Center",
+        tp_crime_area = "Crime Area",
+        tp_abandoned_house = "Abandoned House",
+        tp_agency_portal = "Agency Portal",
+        tp_hideout = "Hideout",
+        tp_school = "School",
+        tp_brook_cafe = "Brook Cafe",
+        tp_spawn = "Spawn Point",
+        tp_main_arch = "Main Arch",
+        tp_hospital = "Hospital",
+        tp_agency_base = "Agency Base",
+        tp_workshop_secret = "Workshop Secret Room",
+        tp_secret_room_2 = "Secret Room 2",
+        tp_isolated_island = "Isolated Island",
+        tp_hotel_square = "Hotel Square",
+        tp_mountain_1 = "Mountain 1",
+        tp_central_bank = "Central Bank",
+        tp_clothing_store = "Clothing Store",
+        tp_bunker = "Bunker",
+        tp_dental_clinic = "Dental Clinic",
+        tp_cafeteria = "Cafeteria",
+        section_rgb_name = "RGB Name",
+        section_rgb_bio = "RGB Bio",
+        section_rainbow_skin = "Rainbow Skin",
+        section_rgb_hair = "RGB Hair",
+        section_audio_loop = "Audio Loop",
     },
     tr = {
         loading = "Script Yükleniyor...",
@@ -277,6 +304,33 @@ local translations = {
         fps_optimizer = "FPS Optimize Edici",
         fps_boost = "FPS Artır (Hızlandır)",
         ready_messages = "Hazır Mesajlar",
+        tp_backstage = "Kulis'e",
+        tp_city_center = "Şehir Merkezine",
+        tp_crime_area = "Suç Alanına",
+        tp_abandoned_house = "Terk Edilmiş Eve",
+        tp_agency_portal = "Ajans Portalına",
+        tp_hideout = "Saklanma Yerine",
+        tp_school = "Okula",
+        tp_brook_cafe = "Brook Cafe'ye",
+        tp_spawn = "Başlangıç Noktasına",
+        tp_main_arch = "Ana Kemere",
+        tp_hospital = "Hastaneye",
+        tp_agency_base = "Ajans Üssüne",
+        tp_workshop_secret = "Atölye Gizli Odasına",
+        tp_secret_room_2 = "Gizli Oda 2'ye",
+        tp_isolated_island = "Issız Adaya",
+        tp_hotel_square = "Otel Meydanına",
+        tp_mountain_1 = "Dağa Çık 1",
+        tp_central_bank = "Merkez Bankasına",
+        tp_clothing_store = "Giyim Mağazasına",
+        tp_bunker = "Sığınağa",
+        tp_dental_clinic = "Diş Kliniğine",
+        tp_cafeteria = "Kafeteryaya",
+        section_rgb_name = "İsim RGB",
+        section_rgb_bio = "Bio RGB",
+        section_rainbow_skin = "Gökkuşağı Teni",
+        section_rgb_hair = "Saç RGB",
+        section_audio_loop = "Ses Döngüsü",
     }
 }
 
@@ -408,7 +462,7 @@ v14:AddParagraph({
 })
 v14:AddParagraph({
     _T('surum'),
-    'Sürüm V1 1.0.1',
+    'Sürüm V1 1.0',
 })
 
 local _ = 'Bilinmiyor'
@@ -1601,7 +1655,7 @@ v194:AddDropdown({
 local u209 = false
 
 v194:AddSection({
-    'Audio Loop',
+    _T('section_audio_loop'),
 })
 
 local function u212()
@@ -2043,7 +2097,7 @@ v273:AddDropdown({
 local _RE2 = game:GetService('ReplicatedStorage'):WaitForChild('RE')
 
 v273:AddSection({
-    'NOME RGB',
+    _T('section_rgb_name'),
 })
 v273:AddToggle({
     Name = _T('rgb_name'),
@@ -2064,7 +2118,7 @@ v273:AddToggle({
     end,
 })
 v273:AddSection({
-    'Bio RGB',
+    _T('section_rgb_bio'),
 })
 v273:AddToggle({
     Name = _T('rgb_bio'),
@@ -2085,7 +2139,7 @@ v273:AddToggle({
     end,
 })
 v273:AddSection({
-    'Skin Raindow',
+    _T('section_rainbow_skin'),
 })
 v273:AddToggle({
     Name = _T('rainbow_skin'),
@@ -2123,7 +2177,7 @@ v273:AddToggle({
     end,
 })
 v273:AddSection({
-    'Cabelo RGB',
+    _T('section_rgb_hair'),
 })
 
 local _RE3 = game:GetService('ReplicatedStorage'):WaitForChild('RE')
@@ -2917,91 +2971,91 @@ local v420 = v13:MakeTab({
 })
 local u421 = {
     {
-        'Kulis\'e',
+        _T('tp_backstage'),
         CFrame.new(192, 4, 272),
     },
     {
-        'Şehir Merkezine',
+        _T('tp_city_center'),
         CFrame.new(136, 4, 117),
     },
     {
-        'Suç Alanına',
+        _T('tp_crime_area'),
         CFrame.new(-119, -28, 235),
     },
     {
-        'Terk Edilmiş Eve',
+        _T('tp_abandoned_house'),
         CFrame.new(986, 4, 63),
     },
     {
-        'Ajans Portalına',
+        _T('tp_agency_portal'),
         CFrame.new(672, 4, -296),
     },
     {
-        'Saklanma Yerine',
+        _T('tp_hideout'),
         CFrame.new(505, -75, 143),
     },
     {
-        'Okula',
+        _T('tp_school'),
         CFrame.new(-312, 4, 211),
     },
     {
-        'Brook Cafe\'ye',
+        _T('tp_brook_cafe'),
         CFrame.new(161, 8, 52),
     },
     {
-        'Başlangıç Noktasına',
+        _T('tp_spawn'),
         CFrame.new(-26, 4, -23),
     },
     {
-        'Ana Kemere',
+        _T('tp_main_arch'),
         CFrame.new(-589, 141, -59),
     },
     {
-        'Hastaneye',
+        _T('tp_hospital'),
         CFrame.new(-309, 4, 71),
     },
     {
-        'Ajans Üssüne',
+        _T('tp_agency_base'),
         CFrame.new(179, 4, -464),
     },
     {
-        'Atölye Gizli Odasına',
+        _T('tp_workshop_secret'),
         CFrame.new(0, 4, -495),
     },
     {
-        'Gizli Oda 2\'ye',
+        _T('tp_secret_room_2'),
         CFrame.new(-343, 4, -613),
     },
     {
-        'Issız Adaya',
+        _T('tp_isolated_island'),
         CFrame.new(-1925, 23, 127),
     },
     {
-        'Otel Meydanına',
+        _T('tp_hotel_square'),
         CFrame.new(182, 4, 150),
     },
     {
-        'Dağa Çık 1',
+        _T('tp_mountain_1'),
         CFrame.new(-670, 251, 765),
     },
     {
-        'Merkez Bankasına',
+        _T('tp_central_bank'),
         CFrame.new(2.28, 4.65, 254.58),
     },
     {
-        'Giyim Mağazasına',
+        _T('tp_clothing_store'),
         CFrame.new(-46.15, 4.65, 253.2),
     },
     {
-        'Sığınağa',
+        _T('tp_bunker'),
         CFrame.new(-88.48, 22.05, 262.34),
     },
     {
-        'Diş Kliniğine',
+        _T('tp_dental_clinic'),
         CFrame.new(-53.58, 22.15, 265.61),
     },
     {
-        'Kafeteryaya',
+        _T('tp_cafeteria'),
         CFrame.new(-97.12, 4.65, 254.99),
     },
 }
