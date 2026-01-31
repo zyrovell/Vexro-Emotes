@@ -3232,9 +3232,9 @@ v433:AddDropdown({
         "Vexro On Top!",
         "Vexro Hub > All",
         "Brookhaven Attack by Vexro",
-        "Vexro Hub Discord: .gg/vexro",
-        "Oyuncu15q was here!",
-        "Vexro Hub is the best!"
+        "Vexro Hub is the best!",
+        "My Name is " .. game.Players.LocalPlayer.DisplayName,
+        game.Players.LocalPlayer.DisplayName .. " was here!"
     },
     Callback = function(msg)
         u440 = msg
