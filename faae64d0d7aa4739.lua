@@ -2018,7 +2018,7 @@ local u279 = {
     Ninja = 'Ninja',
     Cartola = 'Silindir Şapka',
     C00Lkidd = 'C00Lkidd',
-    ['GAME ATTACKED BY ATHER HUB'] = 'GAME ATTACKED BY ATHER HUB',
+    ['GAME ATTACKED BY VEXRO HUB'] = 'GAME ATTACKED BY VEXRO HUB',
 }
 
 v273:AddDropdown({
@@ -2030,7 +2030,7 @@ v273:AddDropdown({
         'Ninja',
         'Silindir Şapka',
         'C00Lkidd',
-        'GAME ATTACKED BY ATHER HUB',
+        'GAME ATTACKED BY VEXRO HUB',
     },
     Callback = function(p280)
         local v281 = Color3.new(0, 0, 0)
