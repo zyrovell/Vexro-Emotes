@@ -1595,13 +1595,13 @@ function redzlib:MakeWindow(Configs)
 	local Window, FirstTab = {}, false
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
-			Title = "Close",
-			Text = "You Want Close Ui?",
+			Title = "Kapat",
+			Text = "Arayüzü kapatmak istediğine emin misin?",
 			Options = {
-				{"Confirm", function()
+				{"Onayla", function()
 					ScreenGui:Destroy()
 				end},
-				{"Cancel"}
+				{"İptal"}
 			}
 		})
 	end
@@ -1671,8 +1671,8 @@ function redzlib:MakeWindow(Configs)
 			Window:MinimizeBtn()
 		end
 		
-		local DTitle = Configs[1] or Configs.Title or "Dialog"
-		local DText = Configs[2] or Configs.Text or "This is a Dialog"
+		local DTitle = Configs[1] or Configs.Title or "Bilgi"
+		local DText = Configs[2] or Configs.Text or "Metin bulunamadı."
 		local DOptions = Configs[3] or Configs.Options or {}
 		
 		local Frame = Create("Frame", {

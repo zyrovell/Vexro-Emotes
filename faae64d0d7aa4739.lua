@@ -3384,9 +3384,9 @@ local v469 = v13:MakeTab({
 })
 
 v469:AddButton({
-    Name = 'NINJA X ADMIN',
+    Name = 'Infinite Yield ',
     Callback = function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/Lindao10/Kxkckxkxkxkxkxkxkxlxllxkxkzlxlxx/refs/heads/main/NINJA%20X%20ADMIN.txt'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
     end,
 })
 v469:AddButton({
@@ -3405,12 +3405,6 @@ v469:AddButton({
     Name = 'Nameles admin',
     Callback = function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source'))()
-    end,
-})
-v469:AddButton({
-    Name = 'Telekinesis',
-    Callback = function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/SAZXHUB/Control-update/main/README.md', true))()
     end,
 })
 v469:AddButton({
