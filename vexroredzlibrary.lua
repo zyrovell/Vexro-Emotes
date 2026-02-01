@@ -2112,13 +2112,20 @@ function redzlib:MakeWindow(Configs)
 				BackgroundTransparency = 1
 			})
 			
-			local NoClickFrame = Create("TextButton", ScreenGui, {
+			local NoClickFrame = Create("Frame", ScreenGui, {
 				Name = "AntiClick",
 				Size = UDim2.new(1, 0, 1, 0),
 				BackgroundTransparency = 1,
 				Visible = false,
-				Text = "",
 				ZIndex = 10000 
+			})
+			
+			local AntiClickButton = Create("TextButton", NoClickFrame, {
+				Name = "AntiClickButton",
+				Size = UDim2.new(1, 0, 1, 0),
+				BackgroundTransparency = 1,
+				Text = "",
+				ZIndex = 1
 			})
 			
 			local DropFrame = Create("Frame", NoClickFrame, {
@@ -2128,7 +2135,8 @@ function redzlib:MakeWindow(Configs)
 				AnchorPoint = Vector2.new(0, 1),
 				Name = "DropdownFrame",
 				ClipsDescendants = true,
-				Active = true
+				Active = true,
+				ZIndex = 2
 			})Make("Corner", DropFrame)Make("Stroke", DropFrame)Make("Gradient", DropFrame, {Rotation = 60})
 			
 			local ScrollFrame = InsertTheme(Create("ScrollingFrame", DropFrame, {
@@ -2387,7 +2395,7 @@ function redzlib:MakeWindow(Configs)
 			end
 			UpdateSelected()
 			
-			NoClickFrame.Activated:Connect(Disable)
+			AntiClickButton.Activated:Connect(Disable)
 			
 			Button.Activated:Connect(CalculateSize)
 			Button.Activated:Connect(Minimize)
