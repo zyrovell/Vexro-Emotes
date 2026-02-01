@@ -1486,17 +1486,8 @@ function redzlib:MakeWindow(Configs)
 		Name = "Top Bar"
 	})
 	
-	local Logo = Create("ImageLabel", TopBar, {
-		Size = UDim2.new(0, 24, 0, 24),
-		Position = UDim2.new(0, 10, 0.5),
-		AnchorPoint = Vector2.new(0, 0.5),
-		BackgroundTransparency = 1,
-		Image = "rbxassetid://94910279410009",
-		Name = "Logo"
-	})
-	
 	local Title = InsertTheme(Create("TextLabel", TopBar, {
-		Position = UDim2.new(0, 42, 0.5),
+		Position = UDim2.new(0, 15, 0.5),
 		AnchorPoint = Vector2.new(0, 0.5),
 		AutomaticSize = "XY",
 		Text = WTitle,
@@ -1662,10 +1653,10 @@ function redzlib:MakeWindow(Configs)
 	end
 	function Window:AddMinimizeButton(Configs)
 		local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-			Size = UDim2.fromOffset(35, 35),
-			Position = UDim2.fromScale(0.15, 0.15),
+			Size = UDim2.fromOffset(55, 55),
+			Position = UDim2.fromScale(0.05, 0.05),
 			BackgroundTransparency = 1,
-			BackgroundColor3 = Theme["Color Hub 2"],
+			Image = "rbxassetid://94910279410009",
 			AutoButtonColor = false
 		}))
 		
