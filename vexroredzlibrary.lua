@@ -959,7 +959,7 @@ local SetProps, SetChildren, InsertTheme, Create do
 			local decode = HttpService:JSONDecode(readfile(file))
 			
 			if type(decode) == "table" then
-				if rawget(decode, "UISize") then redzlib.Save["UISize"] = decode["UISize"] end
+				--if rawget(decode, "UISize") then redzlib.Save["UISize"] = decode["UISize"] end
 				if rawget(decode, "TabSize") then redzlib.Save["TabSize"] = decode["TabSize"] end
 				if rawget(decode, "Theme") and VerifyTheme(decode["Theme"]) then redzlib.Save["Theme"] = decode["Theme"] end
 			end
@@ -1422,6 +1422,11 @@ function redzlib:MakeWindow(Configs)
 	
 	Settings.ScriptFile = Configs[3] or Configs.SaveFolder or false
 	
+	Settings.CloseTitle = Configs.CloseTitle or "Kapat"
+	Settings.CloseText = Configs.CloseText or "Arayüzü kapatmak istediğine emin misin?"
+	Settings.CloseConfirm = Configs.CloseConfirm or "Onayla"
+	Settings.CloseCancel = Configs.CloseCancel or "İptal"
+	
 	local function LoadFile()
 		local File = Settings.ScriptFile
 		if type(File) ~= "string" then return end
@@ -1557,8 +1562,8 @@ function redzlib:MakeWindow(Configs)
 	
 	ConnectSave(ControlSize1, function()
 		if not Minimized then
-			redzlib.Save.UISize = {MainFrame.Size.X.Offset, MainFrame.Size.Y.Offset}
-			SaveJson("redz library V5.json", redzlib.Save)
+			--redzlib.Save.UISize = {MainFrame.Size.X.Offset, MainFrame.Size.Y.Offset}
+			--SaveJson("redz library V5.json", redzlib.Save)
 		end
 	end)
 	
@@ -1596,13 +1601,13 @@ function redzlib:MakeWindow(Configs)
 	local Window, FirstTab = {}, false
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
-			Title = "Kapat",
-			Text = "Arayüzü kapatmak istediğine emin misin?",
+			Title = Settings.CloseTitle,
+			Text = Settings.CloseText,
 			Options = {
-				{"Onayla", function()
+				{Settings.CloseConfirm, function()
 					ScreenGui:Destroy()
 				end},
-				{"İptal"}
+				{Settings.CloseCancel}
 			}
 		})
 	end
@@ -2107,12 +2112,13 @@ function redzlib:MakeWindow(Configs)
 				BackgroundTransparency = 1
 			})
 			
-			local NoClickFrame = Create("TextButton", DropdownHolder, {
+			local NoClickFrame = Create("TextButton", ScreenGui, {
 				Name = "AntiClick",
 				Size = UDim2.new(1, 0, 1, 0),
 				BackgroundTransparency = 1,
 				Visible = false,
-				Text = ""
+				Text = "",
+				ZIndex = 10000 -- Ensure it's above everything
 			})
 			
 			local DropFrame = Create("Frame", NoClickFrame, {
@@ -2210,25 +2216,29 @@ function redzlib:MakeWindow(Configs)
 				local ScaledScreenH = ScreenSize.Y / currentScale
 				local ScaledFrameH = FrameSize.Y / currentScale
 				
-				local spaceBelow = ScaledScreenH - (ScaledY + ScaledFrameH) - 10
-				local spaceAbove = ScaledY - 10
+				-- Safety margin from screen edges
+				local Margin = 10
+				
+				local spaceBelow = ScaledScreenH - (ScaledY + ScaledFrameH) - Margin
+				local spaceAbove = ScaledY - Margin
 				
 				local AnchorY = 0
 				local TargetY = ScaledY + ScaledFrameH
 				
+				-- Decide whether to open up or down
 				if spaceBelow < ScrollSize and spaceAbove > spaceBelow then
 					AnchorY = 1
 					TargetY = ScaledY
 				end
 				
 				local maxSpace = (AnchorY == 0) and spaceBelow or spaceAbove
-				local finalHeight = math.min(ScrollSize, math.max(maxSpace, 50))
+				local finalHeight = math.min(ScrollSize, math.max(maxSpace, 40))
 				
-				local ClampX = math.clamp(ScaledX, 5, ScaledScreenW - 152 - 5)
+				local ClampX = math.clamp(ScaledX, Margin, ScaledScreenW - 152 - Margin)
 				
 				DropFrame.AnchorPoint = Vector2.new(0, AnchorY)
 				DropFrame.Size = UDim2.fromOffset(152, finalHeight)
-				CreateTween({DropFrame, "Position", UDim2.fromOffset(ClampX, TargetY), 0.1})
+				DropFrame.Position = UDim2.fromOffset(ClampX, TargetY)
 			end
 			
 			local AddNewOptions, GetOptions, AddOption, RemoveOption, Selected do
@@ -2381,16 +2391,15 @@ function redzlib:MakeWindow(Configs)
 				UpdateSelected()
 			end
 			
-			Button.Activated:Connect(Minimize)
-			NoClickFrame.MouseButton1Down:Connect(Disable)
-			NoClickFrame.MouseButton1Click:Connect(Disable)
-			MainFrame:GetPropertyChangedSignal("Visible"):Connect(Disable)
-			SelectedFrame:GetPropertyChangedSignal("AbsolutePosition"):Connect(CalculatePos)
-			
 			Button.Activated:Connect(CalculateSize)
 			ScrollFrame.ChildAdded:Connect(CalculateSize)
 			ScrollFrame.ChildRemoved:Connect(CalculateSize)
-			CalculatePos()
+			
+			-- Close dropdown when window is dragged or closed
+			MainFrame:GetPropertyChangedSignal("Position"):Connect(Disable)
+			MainFrame:GetPropertyChangedSignal("Visible"):Connect(Disable)
+			Title:GetPropertyChangedSignal("Text"):Connect(Disable)
+			
 			CalculateSize()
 			
 			local Dropdown = {}
