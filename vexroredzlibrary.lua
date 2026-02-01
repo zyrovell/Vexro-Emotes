@@ -2305,6 +2305,7 @@ function redzlib:MakeWindow(Configs)
 				Option.LastCB = tick()
 				CallbackSelected()
 				UpdateSelected()
+				if not MultiSelect then Disable() end
 			end
 			
 			local function AddOption(index, Value)
@@ -2385,6 +2386,8 @@ function redzlib:MakeWindow(Configs)
 				AddOption(k, v)
 			end
 			UpdateSelected()
+			
+			NoClickFrame.Activated:Connect(Disable)
 			
 			Button.Activated:Connect(CalculateSize)
 			Button.Activated:Connect(Minimize)
