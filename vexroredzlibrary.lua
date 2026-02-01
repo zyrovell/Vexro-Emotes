@@ -2093,18 +2093,17 @@ function redzlib:MakeWindow(Configs)
 				BackgroundColor3 = Theme["Color Stroke"]
 			}), "Stroke")Make("Corner", SelectedFrame, UDim.new(0, 4))
 			
-			local ActiveLabel = Create("TextLabel", SelectedFrame, {
+			local ActiveLabel = InsertTheme(Create("TextLabel", SelectedFrame, {
 				Size = UDim2.new(0.85, 0, 0.85, 0),
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				Position = UDim2.new(0.5, 0, 0.5, 0),
 				BackgroundTransparency = 1,
 				Font = Enum.Font.GothamBold,
 				TextScaled = true,
-				TextColor3 = Color3.new(1, 1, 1),
+				TextColor3 = Theme["Color Text"],
 				TextTransparency = 0,
-				Text = "...",
-				ZIndex = 5
-			})
+				Text = "..."
+			}), "Text")
 			
 			local Arrow = Create("ImageLabel", SelectedFrame, {
 				Size = UDim2.new(0, 15, 0, 15),
@@ -2293,11 +2292,13 @@ function redzlib:MakeWindow(Configs)
 						local nodes = v.nodes
 						CreateTween({nodes[2], "BackgroundTransparency", Stats and 0 or 0.8, 0.35})
 						CreateTween({nodes[2], "Size", Stats and UDim2.fromOffset(4, 12) or UDim2.fromOffset(4, 4), 0.35})
+						CreateTween({nodes[3], "TextTransparency", Stats and 0 or 0.15, 0.35})
 					else
 						local Slt = v.Value == Selected
 						local nodes = v.nodes
 						CreateTween({nodes[2], "BackgroundTransparency", Slt and 0 or 1, 0.35})
 						CreateTween({nodes[2], "Size", Slt and UDim2.fromOffset(4, 14) or UDim2.fromOffset(4, 4), 0.35})
+						CreateTween({nodes[3], "TextTransparency", Slt and 0 or 0.15, 0.35})
 					end
 				end
 				UpdateLabel()
@@ -2350,18 +2351,16 @@ function redzlib:MakeWindow(Configs)
 					AnchorPoint = Vector2.new(0, 0.5)
 				}), "Theme")Make("Corner", IsSelected, UDim.new(0.5, 0))
 				
-				local OptioneName = Create("TextLabel", Button, {
+				local OptioneName = InsertTheme(Create("TextLabel", Button, {
 					Size = UDim2.new(1, 0, 1),
 					Position = UDim2.new(0, 10),
 					Text = Name,
-					TextColor3 = Color3.new(1, 1, 1),
+					TextColor3 = Theme["Color Text"],
 					Font = Enum.Font.GothamBold,
 					TextXAlignment = "Left",
 					BackgroundTransparency = 1,
-					TextTransparency = 0,
-					TextSize = 14,
-					ZIndex = 5
-				})
+					TextTransparency = 0.15
+				}), "Text")
 				
 				Button.Activated:Connect(function()
 					Select(Opt)
