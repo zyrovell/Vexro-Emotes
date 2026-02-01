@@ -1165,8 +1165,21 @@ local function MakeDrag(Instance)
 		
 		local function Update(Input)
 			local delta = Input.Position - DragStart
-			local Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + delta.X / UIScale, StartPos.Y.Scale, StartPos.Y.Offset + delta.Y / UIScale)
-			-- Instance.Position = Position
+			local targetX = StartPos.X.Offset + delta.X / UIScale
+			local targetY = StartPos.Y.Offset + delta.Y / UIScale
+			
+			local ScreenSize = ScreenGui.AbsoluteSize / UIScale
+			local ObjSize = Instance.AbsoluteSize / UIScale
+			
+			local minX = -ScreenSize.X * StartPos.X.Scale
+			local maxX = ScreenSize.X * (1 - StartPos.X.Scale) - ObjSize.X
+			local minY = -ScreenSize.Y * StartPos.Y.Scale
+			local maxY = ScreenSize.Y * (1 - StartPos.Y.Scale) - ObjSize.Y
+			
+			targetX = math.clamp(targetX, minX, maxX)
+			targetY = math.clamp(targetY, minY, maxY)
+			
+			local Position = UDim2.new(StartPos.X.Scale, targetX, StartPos.Y.Scale, targetY)
 			CreateTween({Instance, "Position", Position, 0.35})
 		end
 		
@@ -1543,7 +1556,12 @@ function redzlib:MakeWindow(Configs)
 	
 	local function ControlSize()
 		local Pos1, Pos2 = ControlSize1.Position, ControlSize2.Position
-		ControlSize1.Position = UDim2.fromOffset(math.clamp(Pos1.X.Offset, 430, 1000), math.clamp(Pos1.Y.Offset, 200, 500))
+		local ScreenSize = ScreenGui.AbsoluteSize / UIScale
+		
+		local maxXSize = math.min(1000, ScreenSize.X * 0.9)
+		local maxYSize = math.min(800, ScreenSize.Y * 0.9)
+		
+		ControlSize1.Position = UDim2.fromOffset(math.clamp(Pos1.X.Offset, 430, maxXSize), math.clamp(Pos1.Y.Offset, 200, maxYSize))
 		ControlSize2.Position = UDim2.new(0, math.clamp(Pos2.X.Offset, 135, 250), 1, 0)
 		
 		MainScroll.Size = UDim2.new(0, ControlSize2.Position.X.Offset, 1, -TopBar.Size.Y.Offset)
@@ -2167,7 +2185,11 @@ function redzlib:MakeWindow(Configs)
 						Count = Count + 1
 					end
 				end
-				ScrollSize = (math.clamp(Count, 0, 10) * 25) + 10
+				
+				local ScreenSize = ScreenGui.AbsoluteSize / UIScale
+				local maxItems = math.floor((ScreenSize.Y * 0.4) / 25)
+				ScrollSize = (math.clamp(Count, 0, math.max(maxItems, 3)) * 25) + 10
+				
 				if NoClickFrame.Visible then
 					NoClickFrame.Visible = true
 					CreateTween({DropFrame, "Size", GetFrameSize(), 0.2, true})
@@ -2192,15 +2214,27 @@ function redzlib:MakeWindow(Configs)
 			end
 			
 			local function CalculatePos()
-				local FramePos = SelectedFrame.AbsolutePosition
-				local ScreenSize = ScreenGui.AbsoluteSize
-				local ClampX = math.clamp((FramePos.X / UIScale), 0, ScreenSize.X / UIScale - DropFrame.Size.X.Offset)
-				local ClampY = math.clamp((FramePos.Y / UIScale) , 0, ScreenSize.Y / UIScale)
+				local FramePos = SelectedFrame.AbsolutePosition / UIScale
+				local ScreenSize = ScreenGui.AbsoluteSize / UIScale
+				local DropWidth = DropFrame.Size.X.Offset
+				local DropHeight = ScrollSize
 				
-				local NewPos = UDim2.fromOffset(ClampX, ClampY)
-				local AnchorPoint = FramePos.Y > ScreenSize.Y / 1.4 and 1 or ScrollSize > 80 and 0.5 or 0
-				DropFrame.AnchorPoint = Vector2.new(0, AnchorPoint)
-				CreateTween({DropFrame, "Position", NewPos, 0.1})
+				local targetX = math.clamp(FramePos.X, 0, ScreenSize.X - DropWidth)
+				local targetY = FramePos.Y
+				
+				local spaceBelow = ScreenSize.Y - (FramePos.Y + SelectedFrame.AbsoluteSize.Y / UIScale)
+				local spaceAbove = FramePos.Y
+				
+				local anchorY = 0
+				local finalY = targetY + SelectedFrame.AbsoluteSize.Y / UIScale
+				
+				if spaceBelow < DropHeight and spaceAbove > spaceBelow then
+					anchorY = 1
+					finalY = FramePos.Y
+				end
+				
+				DropFrame.AnchorPoint = Vector2.new(0, anchorY)
+				CreateTween({DropFrame, "Position", UDim2.fromOffset(targetX, finalY), 0.1})
 			end
 			
 			local AddNewOptions, GetOptions, AddOption, RemoveOption, Selected do
