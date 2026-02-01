@@ -1486,8 +1486,17 @@ function redzlib:MakeWindow(Configs)
 		Name = "Top Bar"
 	})
 	
+	local Logo = Create("ImageLabel", TopBar, {
+		Size = UDim2.new(0, 24, 0, 24),
+		Position = UDim2.new(0, 10, 0.5),
+		AnchorPoint = Vector2.new(0, 0.5),
+		BackgroundTransparency = 1,
+		Image = "rbxassetid://94910279410009",
+		Name = "Logo"
+	})
+	
 	local Title = InsertTheme(Create("TextLabel", TopBar, {
-		Position = UDim2.new(0, 15, 0.5),
+		Position = UDim2.new(0, 42, 0.5),
 		AnchorPoint = Vector2.new(0, 0.5),
 		AutomaticSize = "XY",
 		Text = WTitle,
