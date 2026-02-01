@@ -2163,27 +2163,48 @@ function redzlib:MakeWindow(Configs)
 				WaitClick = false
 			end
 			
-			local function GetFrameSize()
-				return UDim2.fromOffset(152, ScrollSize)
+			local function CalculateState()
+				local currentScale = ScreenGui:FindFirstChild("Scale") and ScreenGui.Scale.Scale or UIScale
+				local FramePos = SelectedFrame.AbsolutePosition
+				local FrameSize = SelectedFrame.AbsoluteSize
+				local ScreenSize = ScreenGui.AbsoluteSize
+				
+				local ScaledX = FramePos.X / currentScale
+				local ScaledY = FramePos.Y / currentScale
+				local ScaledScreenW = ScreenSize.X / currentScale
+				local ScaledScreenH = ScreenSize.Y / currentScale
+				local ScaledFrameH = FrameSize.Y / currentScale
+				
+				local Margin = 10
+				
+				local spaceBelow = ScaledScreenH - (ScaledY + ScaledFrameH) - Margin
+				local spaceAbove = ScaledY - Margin
+				
+				local AnchorY = 0
+				local TargetY = ScaledY + ScaledFrameH
+				
+				if spaceBelow < ScrollSize and spaceAbove > spaceBelow then
+					AnchorY = 1
+					TargetY = ScaledY
+				end
+				
+				local maxSpace = (AnchorY == 0) and spaceBelow or spaceAbove
+				local finalHeight = math.min(ScrollSize, math.max(maxSpace, 40))
+				
+				local ClampX = math.clamp(ScaledX, Margin, ScaledScreenW - 152 - Margin)
+				
+				return {
+					Anchor = Vector2.new(0, AnchorY),
+					Pos = UDim2.fromOffset(ClampX, TargetY),
+					Size = UDim2.fromOffset(152, finalHeight)
+				}
 			end
 			
-			local function CalculateSize()
-				local Count = 0
-				for _,Frame in pairs(ScrollFrame:GetChildren()) do
-					if Frame:IsA("Frame") or Frame.Name == "Option" then
-						Count = Count + 1
-					end
-				end
-				
-				local ScreenSize = ScreenGui.AbsoluteSize
-				local currentScale = ScreenGui:FindFirstChild("Scale") and ScreenGui.Scale.Scale or UIScale
-				local ScaledScreenH = ScreenSize.Y / currentScale
-				local MaxItems = math.floor((ScaledScreenH * 0.5) / 25)
-				
-				ScrollSize = (math.clamp(Count, 0, math.max(10, MaxItems)) * 25) + 10
-				if NoClickFrame.Visible then
-					CalculatePos()
-				end
+			local function CalculatePos()
+				local State = CalculateState()
+				DropFrame.AnchorPoint = State.Anchor
+				DropFrame.Position = State.Pos
+				DropFrame.Size = State.Size
 			end
 			
 			local function Minimize()
@@ -2196,49 +2217,18 @@ function redzlib:MakeWindow(Configs)
 					NoClickFrame.Visible = false
 				else
 					NoClickFrame.Visible = true
-					CalculatePos()
+					
+					local State = CalculateState()
+					DropFrame.AnchorPoint = State.Anchor
+					DropFrame.Position = State.Pos
+					-- Reset size to 0 for animation
+					DropFrame.Size = UDim2.fromOffset(152, 0)
+					
 					Arrow.Image = "rbxassetid://10709790948"
 					CreateTween({Arrow, "ImageColor3", Theme["Color Theme"], 0.2})
-					CreateTween({DropFrame, "Size", GetFrameSize(), 0.2})
+					CreateTween({DropFrame, "Size", State.Size, 0.2})
 				end
 				WaitClick = false
-			end
-			
-			local function CalculatePos()
-				local currentScale = ScreenGui:FindFirstChild("Scale") and ScreenGui.Scale.Scale or UIScale
-				local FramePos = SelectedFrame.AbsolutePosition
-				local FrameSize = SelectedFrame.AbsoluteSize
-				local ScreenSize = ScreenGui.AbsoluteSize
-				
-				local ScaledX = FramePos.X / currentScale
-				local ScaledY = FramePos.Y / currentScale
-				local ScaledScreenW = ScreenSize.X / currentScale
-				local ScaledScreenH = ScreenSize.Y / currentScale
-				local ScaledFrameH = FrameSize.Y / currentScale
-				
-				-- Safety margin from screen edges
-				local Margin = 10
-				
-				local spaceBelow = ScaledScreenH - (ScaledY + ScaledFrameH) - Margin
-				local spaceAbove = ScaledY - Margin
-				
-				local AnchorY = 0
-				local TargetY = ScaledY + ScaledFrameH
-				
-				-- Decide whether to open up or down
-				if spaceBelow < ScrollSize and spaceAbove > spaceBelow then
-					AnchorY = 1
-					TargetY = ScaledY
-				end
-				
-				local maxSpace = (AnchorY == 0) and spaceBelow or spaceAbove
-				local finalHeight = math.min(ScrollSize, math.max(maxSpace, 40))
-				
-				local ClampX = math.clamp(ScaledX, Margin, ScaledScreenW - 152 - Margin)
-				
-				DropFrame.AnchorPoint = Vector2.new(0, AnchorY)
-				DropFrame.Size = UDim2.fromOffset(152, finalHeight)
-				DropFrame.Position = UDim2.fromOffset(ClampX, TargetY)
 			end
 			
 			local AddNewOptions, GetOptions, AddOption, RemoveOption, Selected do
@@ -2392,6 +2382,7 @@ function redzlib:MakeWindow(Configs)
 			end
 			
 			Button.Activated:Connect(CalculateSize)
+			Button.Activated:Connect(Minimize)
 			ScrollFrame.ChildAdded:Connect(CalculateSize)
 			ScrollFrame.ChildRemoved:Connect(CalculateSize)
 			
